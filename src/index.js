@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import App from './containers/App';
+
+import './styles/styles.css';
+import './fonts/css/fontawesome-all.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
