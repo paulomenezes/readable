@@ -1,10 +1,14 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { connect } from 'react-redux';
+
+import { loginModal, registerModal } from '../actions/ui';
 
 const Login = props => {
   return (
     <Modal
       isOpen={props.isOpen}
+      ariaHideApp={false}
       style={{
         overlay: {
           backgroundColor: 'rgba(0, 0, 0, 0.5)'
@@ -21,36 +25,48 @@ const Login = props => {
       <div className="content">
         <div className="is-clearfix">
           <h1 className="is-pulled-left">Log in</h1>
-          <i className="is-pulled-right fas fa-times is-link" onClick={props.closeModal} />
+          <i className="is-pulled-right fas fa-times is-link" onClick={() => props.openLogin(false)} />
         </div>
         <br />
-        <div class="field">
-          <p class="control has-icons-left">
-            <input class="input" type="email" placeholder="Email" name="email" />
-            <span class="icon is-small is-left">
-              <i class="fas fa-envelope" />
+        <div className="field">
+          <p className="control has-icons-left">
+            <input className="input" type="email" placeholder="Email" name="email" />
+            <span className="icon is-small is-left">
+              <i className="fas fa-envelope" />
             </span>
           </p>
         </div>
-        <div class="field">
-          <p class="control has-icons-left">
-            <input class="input" type="password" placeholder="Password" name="password" />
-            <span class="icon is-small is-left">
-              <i class="fas fa-lock" />
+        <div className="field">
+          <p className="control has-icons-left">
+            <input className="input" type="password" placeholder="Password" name="password" />
+            <span className="icon is-small is-left">
+              <i className="fas fa-lock" />
             </span>
           </p>
         </div>
-        <div class="field">
-          <p class="control is-pulled-right">
-            <button class="button is-primary">Login</button>
+        <div className="field">
+          <p className="control is-pulled-right">
+            <button className="button is-primary">Login</button>
           </p>
         </div>
         <p>
-          New to readable? <button className="button is-text">sign up</button>
+          New to readable?{' '}
+          <button className="button is-text" onClick={() => props.openRegister(true)}>
+            sign up
+          </button>
         </p>
       </div>
     </Modal>
   );
 };
 
-export default Login;
+const mapStateToProps = (state, props) => ({
+  isOpen: state.ui.isLoginOpened
+});
+
+const mapDispatchToProps = dispatch => ({
+  openLogin: opened => dispatch(loginModal(opened)),
+  openRegister: opened => dispatch(registerModal(opened))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

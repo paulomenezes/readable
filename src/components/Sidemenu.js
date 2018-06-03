@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { loginModal, registerModal } from '../actions/ui';
 
 const Sidemenu = props => {
   return (
@@ -30,19 +33,24 @@ const Sidemenu = props => {
 
       <div className="field vertical-buttons">
         <p className="control">
-          <a className="button is-primary" href="#">
+          <button className="button is-primary" onClick={() => props.openRegister(true)}>
             <span>Sign up</span>
-          </a>
+          </button>
         </p>
         <br />
         <p className="control">
-          <a className="button is-white" href="#">
+          <button className="button is-white" onClick={() => props.openLogin(true)}>
             <span>Log in</span>
-          </a>
+          </button>
         </p>
       </div>
     </aside>
   );
 };
 
-export default Sidemenu;
+const mapDispatchToProps = dispatch => ({
+  openLogin: opened => dispatch(loginModal(opened)),
+  openRegister: opened => dispatch(registerModal(opened))
+});
+
+export default connect(null, mapDispatchToProps)(Sidemenu);

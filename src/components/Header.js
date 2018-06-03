@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { loginModal, registerModal } from '../actions/ui';
 
 const Header = props => {
   return (
@@ -23,12 +26,12 @@ const Header = props => {
           <div className="column is-3">
             <div className="field is-grouped is-pulled-right">
               <p className="control">
-                <button className="button" onClick={() => props.openModal('login')}>
+                <button className="button" onClick={() => props.openLogin(true)}>
                   <span>Log in</span>
                 </button>
               </p>
               <p className="control">
-                <button className="button is-primary" onClick={() => props.openModal('register')}>
+                <button className="button is-primary" onClick={() => props.openRegister(true)}>
                   <span>Sign up</span>
                 </button>
               </p>
@@ -40,4 +43,9 @@ const Header = props => {
   );
 };
 
-export default Header;
+const mapDispatchToProps = dispatch => ({
+  openLogin: opened => dispatch(loginModal(opened)),
+  openRegister: opened => dispatch(registerModal(opened))
+});
+
+export default connect(null, mapDispatchToProps)(Header);

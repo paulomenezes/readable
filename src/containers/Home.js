@@ -23,21 +23,21 @@ const Home = props => {
             </div>
           </div>
 
-          <div class="card">
-            <div class="card-content">
-              <div class="media">
-                <div class="media-content">
-                  <p class="title is-4">Title</p>
+          <div className="card">
+            <div className="card-content">
+              <div className="media">
+                <div className="media-content">
+                  <p className="title is-4">Title</p>
                 </div>
               </div>
 
-              <div class="content">
+              <div className="content">
                 Body.
                 <br />
-                <p class="subtitle is-6">Paulo Menezes</p>
-                <time datetime="2016-1-1">an hour ago</time>
+                <p className="subtitle is-6">Paulo Menezes</p>
+                <time date="2016-1-1">an hour ago</time>
                 <br />
-                <span class="tag is-danger">e/react</span>
+                <span className="tag is-danger">e/react</span>
               </div>
             </div>
           </div>
