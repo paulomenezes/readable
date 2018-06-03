@@ -19,22 +19,22 @@ const Login = props => {
       }}
     >
       <div className="content">
-        <h1>Log in</h1>
+        <div className="is-clearfix">
+          <h1 className="is-pulled-left">Log in</h1>
+          <i className="is-pulled-right fas fa-times is-link" onClick={props.closeModal} />
+        </div>
         <br />
         <div class="field">
-          <p class="control has-icons-left has-icons-right">
-            <input class="input" type="email" placeholder="Email" />
+          <p class="control has-icons-left">
+            <input class="input" type="email" placeholder="Email" name="email" />
             <span class="icon is-small is-left">
               <i class="fas fa-envelope" />
-            </span>
-            <span class="icon is-small is-right">
-              <i class="fas fa-check" />
             </span>
           </p>
         </div>
         <div class="field">
           <p class="control has-icons-left">
-            <input class="input" type="password" placeholder="Password" />
+            <input class="input" type="password" placeholder="Password" name="password" />
             <span class="icon is-small is-left">
               <i class="fas fa-lock" />
             </span>
@@ -46,7 +46,7 @@ const Login = props => {
           </p>
         </div>
         <p>
-          New to readable? <a href="#">sign up</a>
+          New to readable? <button className="button is-text">sign up</button>
         </p>
       </div>
     </Modal>

@@ -14,6 +14,10 @@ $link: $readble;
 
 @import '../../node_modules/bulma/bulma.sass';
 
+.is-link {
+  cursor: pointer;
+}
+
 .header {
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
 

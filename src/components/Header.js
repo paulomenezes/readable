@@ -13,7 +13,7 @@ const Header = props => {
           <div className="column is-6">
             <div className="field">
               <p className="control has-icons-right">
-                <input className="input" type="text" placeholder="Search for a community, post or user" />
+                <input className="input" type="text" placeholder="Search for a community, post or user" name="search" />
                 <span className="icon is-small is-right">
                   <i className="fas fa-search" />
                 </span>
@@ -23,14 +23,14 @@ const Header = props => {
           <div className="column is-3">
             <div className="field is-grouped is-pulled-right">
               <p className="control">
-                <a className="button" href="#">
+                <button className="button" onClick={() => props.openModal('login')}>
                   <span>Log in</span>
-                </a>
+                </button>
               </p>
               <p className="control">
-                <a className="button is-primary" href="#">
+                <button className="button is-primary" onClick={() => props.openModal('register')}>
                   <span>Sign up</span>
-                </a>
+                </button>
               </p>
             </div>
           </div>

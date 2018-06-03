@@ -14,15 +14,34 @@ export default class App extends Component {
     isRegisterOpened: false
   };
 
+  openModal = modal => {
+    if (modal === 'login') {
+      this.setState({
+        isLoginOpened: true
+      });
+    } else if (modal === 'register') {
+      this.setState({
+        isRegisterOpened: true
+      });
+    }
+  };
+
+  closeModal = () => {
+    this.setState({
+      isLoginOpened: false,
+      isRegisterOpened: false
+    });
+  };
+
   render() {
     return (
       <BrowserRouter>
         <section>
-          <Header />
+          <Header openModal={this.openModal} />
           <Route exact path="/" component={Home} />
           <Footer />
 
-          <Login isOpen={this.state.isLoginOpened} />
+          <Login isOpen={this.state.isLoginOpened} openModal={this.openModal} closeModal={this.closeModal} />
         </section>
       </BrowserRouter>
     );

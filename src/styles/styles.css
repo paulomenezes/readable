@@ -6419,6 +6419,9 @@ label.panel-block {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem; }
 
+.is-link {
+  cursor: pointer; }
+
 .header {
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
   margin-bottom: 20px;
