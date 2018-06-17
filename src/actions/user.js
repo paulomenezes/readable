@@ -1,4 +1,4 @@
-import { registerModal } from './ui';
+import { registerModal, loginModal } from './ui';
 import * as UserAPI from '../services/user';
 
 export const USER_LOADING = 'USER_LOADING';
@@ -43,4 +43,28 @@ export const insertUser = ({ name, username, password }) => async dispatch => {
       dispatch(userError());
     }
   }
+};
+
+export const login = ({ username, password }) => async dispatch => {
+  try {
+    const response = await UserAPI.getUser(username);
+    const user = await response.json();
+
+    if (user && user.password === password) {
+      dispatch(userSuccess(user));
+      dispatch(loginModal(false));
+
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      dispatch(userError());
+    }
+  } catch (error) {
+    dispatch(userError());
+  }
+};
+
+export const logout = () => dispatch => {
+  localStorage.removeItem('user');
+
+  dispatch(userSuccess(undefined));
 };

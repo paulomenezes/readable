@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { logout } from '../actions/user';
 import { loginModal, registerModal } from '../actions/ui';
 
 const Header = props => {
@@ -25,7 +26,12 @@ const Header = props => {
           </div>
           <div className="column is-3">
             {props.user ? (
-              <div>{props.user.name}</div>
+              <div className="is-pulled-right">
+                {props.user.name}{' '}
+                <span className="is-link" onClick={() => props.logout()}>
+                  (sair)
+                </span>
+              </div>
             ) : (
               <div className="field is-grouped is-pulled-right">
                 <p className="control">
@@ -53,7 +59,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   openLogin: opened => dispatch(loginModal(opened)),
-  openRegister: opened => dispatch(registerModal(opened))
+  openRegister: opened => dispatch(registerModal(opened)),
+  logout: () => dispatch(logout())
 });
 
 export default connect(
