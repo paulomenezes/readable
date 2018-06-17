@@ -31,26 +31,35 @@ const Sidemenu = props => {
       <p className="has-text-centered has-text-primary is-size-2 is-italic">l</p>
       <p className="has-text-centered has-text-weight-semibold">Sign up and stay connected to your favorite communities.</p>
 
-      <div className="field vertical-buttons">
-        <p className="control">
-          <button className="button is-primary" onClick={() => props.openRegister(true)}>
-            <span>Sign up</span>
-          </button>
-        </p>
-        <br />
-        <p className="control">
-          <button className="button is-white" onClick={() => props.openLogin(true)}>
-            <span>Log in</span>
-          </button>
-        </p>
-      </div>
+      {!props.user && (
+        <div className="field vertical-buttons">
+          <p className="control">
+            <button className="button is-primary" onClick={() => props.openRegister(true)}>
+              <span>Sign up</span>
+            </button>
+          </p>
+          <br />
+          <p className="control">
+            <button className="button is-white" onClick={() => props.openLogin(true)}>
+              <span>Log in</span>
+            </button>
+          </p>
+        </div>
+      )}
     </aside>
   );
 };
+
+const mapStateToProps = state => ({
+  user: state.user.user
+});
 
 const mapDispatchToProps = dispatch => ({
   openLogin: opened => dispatch(loginModal(opened)),
   openRegister: opened => dispatch(registerModal(opened))
 });
 
-export default connect(null, mapDispatchToProps)(Sidemenu);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Sidemenu);

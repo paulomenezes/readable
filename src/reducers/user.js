@@ -1,20 +1,32 @@
-import { CHECK_USER_AVAILABLE, CHECK_USER_LOADING } from '../actions/user';
+import { USER_LOADING, USER_SUCCESS, USER_ERROR, userError } from '../actions/user';
 
 const initialState = {
   loading: false,
-  available: false
+  error: false,
+  success: false,
+  user: undefined
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case CHECK_USER_AVAILABLE:
+    case USER_LOADING:
+      return {
+        ...state,
+        loading: action.loading
+      };
+    case USER_SUCCESS:
       return {
         loading: false,
-        available: action.available
+        error: false,
+        success: true,
+        user: action.user
       };
-    case CHECK_USER_LOADING:
+    case USER_ERROR:
       return {
-        loading: action.loading
+        loading: false,
+        error: true,
+        success: false,
+        user: undefined
       };
     default:
       return state;

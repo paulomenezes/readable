@@ -24,18 +24,22 @@ const Header = props => {
             </div>
           </div>
           <div className="column is-3">
-            <div className="field is-grouped is-pulled-right">
-              <p className="control">
-                <button className="button" onClick={() => props.openLogin(true)}>
-                  <span>Log in</span>
-                </button>
-              </p>
-              <p className="control">
-                <button className="button is-primary" onClick={() => props.openRegister(true)}>
-                  <span>Sign up</span>
-                </button>
-              </p>
-            </div>
+            {props.user ? (
+              <div>{props.user.name}</div>
+            ) : (
+              <div className="field is-grouped is-pulled-right">
+                <p className="control">
+                  <button className="button" onClick={() => props.openLogin(true)}>
+                    <span>Log in</span>
+                  </button>
+                </p>
+                <p className="control">
+                  <button className="button is-primary" onClick={() => props.openRegister(true)}>
+                    <span>Sign up</span>
+                  </button>
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -43,9 +47,16 @@ const Header = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  user: state.user.user
+});
+
 const mapDispatchToProps = dispatch => ({
   openLogin: opened => dispatch(loginModal(opened)),
   openRegister: opened => dispatch(registerModal(opened))
 });
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

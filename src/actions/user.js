@@ -1,31 +1,46 @@
+import { registerModal } from './ui';
 import * as UserAPI from '../services/user';
 
-export const CHECK_USER_AVAILABLE = 'CHECK_USER_AVAILABLE';
-export const CHECK_USER_LOADING = 'CHECK_USER_LOADING';
+export const USER_LOADING = 'USER_LOADING';
+export const USER_SUCCESS = 'USER_SUCCESS';
+export const USER_ERROR = 'USER_ERROR';
 
-export const checkUserAvailable = available => ({
-  type: CHECK_USER_AVAILABLE,
-  available
+export const isLoading = (loading = true) => ({
+  type: USER_LOADING,
+  loading
 });
 
-export const checkUserLoading = () => ({
-  type: CHECK_USER_LOADING,
-  loading: true
+export const userSuccess = user => ({
+  type: USER_SUCCESS,
+  user
 });
 
-export const checkUsernameAvailability = username => async dispatch => {
-  dispatch(checkUserLoading());
+export const userError = () => ({
+  type: USER_ERROR
+});
 
-  if (username) {
+export const loadUser = () => dispatch => {
+  const user = localStorage.getItem('user');
+  if (user) {
+    dispatch(userSuccess(JSON.parse(user)));
+  }
+};
+
+export const insertUser = ({ name, username, password }) => async dispatch => {
+  dispatch(isLoading());
+
+  if (name && username && password) {
     try {
-      const response = await UserAPI.getUser(username);
-      const user = await response.json();
+      await UserAPI.insertUser({ name, username, password });
 
-      dispatch(checkUserAvailable(user && user.username));
+      const user = { name, username };
+
+      dispatch(userSuccess(user));
+      dispatch(registerModal(false));
+
+      localStorage.setItem('user', JSON.stringify(user));
     } catch (error) {
-      dispatch(checkUserAvailable(true));
+      dispatch(userError());
     }
-  } else {
-    dispatch(checkUserAvailable(true));
   }
 };
