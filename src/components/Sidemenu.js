@@ -29,8 +29,22 @@ const Sidemenu = props => {
       <div className="divider" />
 
       {props.user ? (
-        <div>
-          <button className="button is-primary">Create a post</button>
+        <div className="field vertical-buttons">
+          <button className="button is-primary">
+            <span class="icon">
+              <i class="far fa-object-ungroup" />
+            </span>
+            <span>Create a community</span>
+          </button>
+
+          <br />
+
+          <button className="button is-primary">
+            <span class="icon">
+              <i class="far fa-edit" />
+            </span>
+            <span>Create a post</span>
+          </button>
         </div>
       ) : (
         <div>
