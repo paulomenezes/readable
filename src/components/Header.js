@@ -15,14 +15,14 @@ const Header = props => {
             </h1>
           </div>
           <div className="column is-6">
-            <div className="field">
+            {/* <div className="field">
               <p className="control has-icons-right">
                 <input className="input" type="text" placeholder="Search for a community, post or user" name="search" />
                 <span className="icon is-small is-right">
                   <i className="fas fa-search" />
                 </span>
               </p>
-            </div>
+            </div> */}
           </div>
           <div className="column is-3">
             {props.user ? (
@@ -54,13 +54,13 @@ const Header = props => {
 };
 
 const mapStateToProps = state => ({
-  user: state.user.user
+  user: state.user.user,
 });
 
 const mapDispatchToProps = dispatch => ({
   openLogin: opened => dispatch(loginModal(opened)),
   openRegister: opened => dispatch(registerModal(opened)),
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
 });
 
 export default connect(

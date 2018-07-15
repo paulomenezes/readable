@@ -1,10 +1,10 @@
-import { USER_LOADING, USER_SUCCESS, USER_ERROR, userError } from '../actions/user';
+import { USER_LOADING, USER_SUCCESS, USER_ERROR } from '../actions/user';
 
 const initialState = {
   loading: false,
   error: false,
   success: false,
-  user: undefined
+  user: undefined,
 };
 
 const reducer = (state = initialState, action) => {
@@ -12,21 +12,21 @@ const reducer = (state = initialState, action) => {
     case USER_LOADING:
       return {
         ...state,
-        loading: action.loading
+        loading: action.loading,
       };
     case USER_SUCCESS:
       return {
         loading: false,
         error: false,
         success: true,
-        user: action.user
+        user: action.user,
       };
     case USER_ERROR:
       return {
         loading: false,
         error: true,
         success: false,
-        user: undefined
+        user: undefined,
       };
     default:
       return state;

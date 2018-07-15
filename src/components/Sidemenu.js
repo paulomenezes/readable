@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 
-import { loginModal, registerModal } from '../actions/ui';
+import { loginModal, registerModal, addCategoryModal, addPostModal } from '../actions/ui';
 
 const Sidemenu = props => {
   return (
@@ -9,39 +10,65 @@ const Sidemenu = props => {
       <p className="menu-label">feeds</p>
       <ul className="menu-list">
         <li>
-          <a className="is-active">
+          <Link to="/" className={!props.currentCategory ? 'is-active' : ''}>
             <span className="icon">
               <i className="fas fa-fire" />
             </span>
             Popular
-          </a>
-        </li>
-        <li>
-          <a>
-            <span className="icon">
-              <i className="fas fa-chart-line" />
-            </span>
-            All
-          </a>
+          </Link>
         </li>
       </ul>
 
       <div className="divider" />
 
+      {props.subscriptions &&
+        props.subscriptions.length > 0 && (
+          <div>
+            <p className="menu-label">subscriptions</p>
+            <ul className="menu-list">
+              {props.subscriptions.map(subscription => (
+                <li key={subscription.category}>
+                  <Link to={`/e/${subscription.category}`} className={subscription.category === props.currentCategory ? 'is-active' : ''}>
+                    e/{subscription.category}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <div className="divider" />
+          </div>
+        )}
+
+      <div>
+        <p className="menu-label">categories</p>
+        <ul className="menu-list">
+          {props.categories &&
+            props.categories.map(category => (
+              <li key={category.link}>
+                <Link to={`/e/${category.link}`} className={category.link === props.currentCategory ? 'is-active' : ''}>
+                  e/{category.link}
+                </Link>
+              </li>
+            ))}
+        </ul>
+
+        <div className="divider" />
+      </div>
+
       {props.user ? (
         <div className="field vertical-buttons">
-          <button className="button is-primary">
-            <span class="icon">
-              <i class="far fa-object-ungroup" />
+          <button className="button is-primary" onClick={() => props.openAddCategory(true)}>
+            <span className="icon">
+              <i className="far fa-object-ungroup" />
             </span>
-            <span>Create a community</span>
+            <span>Create a category</span>
           </button>
 
           <br />
 
-          <button className="button is-primary">
-            <span class="icon">
-              <i class="far fa-edit" />
+          <button className="button is-primary" onClick={() => props.openAddPost(true)}>
+            <span className="icon">
+              <i className="far fa-edit" />
             </span>
             <span>Create a post</span>
           </button>
@@ -70,16 +97,25 @@ const Sidemenu = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  user: state.user.user
-});
+const mapStateToProps = (state, props) => {
+  return {
+    user: state.user.user,
+    subscriptions: state.subscription.subscriptions,
+    categories: state.categories.categories,
+    currentCategory: props.match && props.match.params && props.match.params.category,
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   openLogin: opened => dispatch(loginModal(opened)),
-  openRegister: opened => dispatch(registerModal(opened))
+  openRegister: opened => dispatch(registerModal(opened)),
+  openAddCategory: opened => dispatch(addCategoryModal(opened)),
+  openAddPost: opened => dispatch(addPostModal(opened)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Sidemenu);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Sidemenu)
+);

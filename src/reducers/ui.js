@@ -1,8 +1,10 @@
-import { LOGIN_MODAL, REGISTER_MODAL } from '../actions/ui';
+import { LOGIN_MODAL, REGISTER_MODAL, ADD_CATEGORY_MODAL, ADD_POST_MODAL } from '../actions/ui';
 
 const initilState = {
   isLoginOpened: false,
-  isRegisterOpened: false
+  isRegisterOpened: false,
+  isAddCategoryOpened: false,
+  isAddPostOpened: false,
 };
 
 function reducer(state = initilState, action) {
@@ -10,12 +12,30 @@ function reducer(state = initilState, action) {
     case LOGIN_MODAL:
       return {
         isLoginOpened: action.opened,
-        isRegisterOpened: false
+        isRegisterOpened: false,
+        isAddCategoryOpened: false,
+        isAddPostOpened: false,
       };
     case REGISTER_MODAL:
       return {
         isLoginOpened: false,
-        isRegisterOpened: action.opened
+        isRegisterOpened: action.opened,
+        isAddCategoryOpened: false,
+        isAddPostOpened: false,
+      };
+    case ADD_CATEGORY_MODAL:
+      return {
+        isLoginOpened: false,
+        isRegisterOpened: false,
+        isAddCategoryOpened: action.opened,
+        isAddPostOpened: false,
+      };
+    case ADD_POST_MODAL:
+      return {
+        isLoginOpened: false,
+        isRegisterOpened: false,
+        isAddCategoryOpened: false,
+        isAddPostOpened: action.opened,
       };
     default:
       return state;

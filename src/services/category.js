@@ -2,14 +2,14 @@ import { API_URL } from '../constants';
 
 const url = params => `${API_URL}${params}.json`;
 
-export const getUser = username => fetch(url('users/' + username));
+export const getAll = () => fetch(url('categories'));
 
-export const insertUser = user =>
-  fetch(url('users/' + user.username), {
+export const insertCategory = category =>
+  fetch(url('categories/' + category.link), {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(user),
+    body: JSON.stringify(category),
   });
