@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Markdown from 'react-remarkable';
-import moment from 'moment';
 
 import Sidemenu from '../components/Sidemenu';
+import Post from '../components/Post';
 
 import { getAll, getByCategory } from '../actions/posts';
 import { insertSubscription } from '../actions/subscription';
@@ -76,32 +74,7 @@ class Home extends React.Component {
                   </div>
                 </div>
 
-                {this.props.posts &&
-                  this.props.posts.map(post => (
-                    <div className="card" key={post.id}>
-                      <div className="card-content">
-                        <div className="media">
-                          <div className="media-content">
-                            <p className="title is-4">{post.name}</p>
-                          </div>
-                        </div>
-
-                        <div className="content">
-                          <Markdown>{post.description}</Markdown>
-                          <br />
-                          <time date="2016-1-1">
-                            {post.author}, {moment(post.timestamp).fromNow()}
-                          </time>
-                          <br />
-                          {this.props.isPopular && (
-                            <Link to={`e/${post.category}`}>
-                              <span className="tag is-danger">e/{post.category}</span>
-                            </Link>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                {this.props.posts && this.props.posts.sort((a, b) => b.voteScore - a.voteScore).map(post => <Post key={post.id} post={post} />)}
               </div>
             )}
           </div>

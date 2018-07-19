@@ -1,4 +1,4 @@
-import { POST_LOADING, POST_SUCCESS, POST_ERROR, POST_LOAD } from '../actions/posts';
+import { POST_LOADING, POST_SUCCESS, POST_ERROR, POST_LOAD, POST_VOTE_SUCCESS } from '../actions/posts';
 
 const initialState = {
   loading: false,
@@ -33,6 +33,11 @@ const reducer = (state = initialState, action) => {
         loading: false,
         error: true,
         success: false,
+      };
+    case POST_VOTE_SUCCESS:
+      return {
+        ...state,
+        posts: state.posts.map(p => (p.id === action.post.id ? action.post : p)),
       };
     default:
       return state;

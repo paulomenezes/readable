@@ -5,6 +5,7 @@ export const POST_LOADING = 'POST_LOADING';
 export const POST_LOAD = 'POST_LOAD';
 export const POST_SUCCESS = 'POST_SUCCESS';
 export const POST_ERROR = 'POST_ERROR';
+export const POST_VOTE_SUCCESS = 'POST_VOTE_SUCCESS';
 
 export const isLoading = (loading = true) => ({
   type: POST_LOADING,
@@ -23,6 +24,11 @@ export const postSuccess = post => ({
 
 export const postError = () => ({
   type: POST_ERROR,
+});
+
+export const postVoteSuccess = post => ({
+  type: POST_VOTE_SUCCESS,
+  post,
 });
 
 export const getAll = () => async dispatch => {
@@ -77,6 +83,28 @@ export const insertPost = ({ name, description, category, user }) => async dispa
 
       dispatch(postSuccess(post));
       dispatch(addPostModal(false));
+    } catch (error) {
+      dispatch(postError());
+    }
+  }
+};
+
+export const vote = (post, type) => async dispatch => {
+  if (post && type) {
+    try {
+      let voteScore = post.voteScore;
+
+      if (type === 'up') {
+        voteScore += 1;
+      } else if (type === 'down') {
+        voteScore -= 1;
+      }
+
+      await PostAPI.vote(post, voteScore);
+
+      post.voteScore = voteScore;
+
+      dispatch(postVoteSuccess(post));
     } catch (error) {
       dispatch(postError());
     }

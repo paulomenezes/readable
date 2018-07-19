@@ -15,3 +15,13 @@ export const insertPost = post =>
     },
     body: JSON.stringify(post),
   });
+
+export const vote = (post, newScore) =>
+  fetch(url(`posts/${post.category}/${post.id}/voteScore`), {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newScore),
+  });
