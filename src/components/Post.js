@@ -1,13 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Markdown from 'react-remarkable';
 import moment from 'moment';
 
-import { vote } from '../actions/posts';
-
 const Post = ({ post, vote, isPopular }) => (
-  <div className="card" key={post.id}>
+  <div className="card">
     <div className="card-votes">
       <i onClick={() => vote(post, 'up')} className="fas fa-chevron-up" />
       <div>{post.voteScore}</div>
@@ -17,14 +14,16 @@ const Post = ({ post, vote, isPopular }) => (
     <div className="card-content">
       <div className="media">
         <div className="media-content">
-          <p className="title is-4">{post.name}</p>
+          <p className="title is-4">
+            <Link to={`e/${post.category}/${post.id}`}>{post.name}</Link>
+          </p>
         </div>
       </div>
 
       <div className="content">
         <Markdown>{post.description}</Markdown>
         <br />
-        <time date="2016-1-1">
+        <time>
           {post.author}, {moment(post.timestamp).fromNow()}
         </time>
         <br />
@@ -38,19 +37,4 @@ const Post = ({ post, vote, isPopular }) => (
   </div>
 );
 
-const mapStateToProps = (state, props) => {
-  return {
-    isPopular: props.match.path === '/',
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  vote: (post, type) => dispatch(vote(post, type)),
-});
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Post)
-);
+export default Post;

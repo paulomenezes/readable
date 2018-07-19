@@ -6,6 +6,8 @@ export const getAll = () => fetch(url('posts'));
 
 export const getByCategory = category => fetch(url('posts/' + category));
 
+export const getById = (category, id) => fetch(url(`posts/${category}/${id}`));
+
 export const insertPost = post =>
   fetch(url(`posts/${post.category}/${post.id}`), {
     method: 'PUT',

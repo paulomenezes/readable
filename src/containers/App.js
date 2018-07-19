@@ -6,6 +6,7 @@ import { loadUser } from '../actions/user';
 import { loadCategories } from '../actions/categories';
 import { loadSubscriptions } from '../actions/subscription';
 
+import Sidemenu from '../components/Sidemenu';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Login from '../components/Login';
@@ -14,6 +15,7 @@ import CategoryForm from '../components/CategoryForm';
 import PostForm from '../components/PostForm';
 
 import Home from './Home';
+import PostDetail from './PostDetail';
 
 class App extends Component {
   componentDidMount() {
@@ -32,8 +34,18 @@ class App extends Component {
       <BrowserRouter>
         <section>
           <Header />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/e/:category" component={Home} />
+          <section className="container">
+            <div className="columns">
+              <div className="column is-3">
+                <Sidemenu />
+              </div>
+              <div className="column is-9">
+                <Route exact path="/" component={Home} />
+                <Route exact path="/e/:category" component={Home} />
+                <Route exact path="/e/:category/:id" component={PostDetail} />
+              </div>
+            </div>
+          </section>
 
           <Footer />
 

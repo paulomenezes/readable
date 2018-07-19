@@ -63,6 +63,19 @@ export const getByCategory = category => async dispatch => {
   }
 };
 
+export const getById = (category, id) => async dispatch => {
+  dispatch(isLoading());
+
+  try {
+    const response = await PostAPI.getById(category, id);
+    let post = await response.json();
+
+    dispatch(postLoad([post]));
+  } catch (error) {
+    dispatch(postError());
+  }
+};
+
 export const insertPost = ({ name, description, category, user }) => async dispatch => {
   dispatch(isLoading());
 

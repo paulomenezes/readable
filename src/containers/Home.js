@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Sidemenu from '../components/Sidemenu';
 import Post from '../components/Post';
 
-import { getAll, getByCategory } from '../actions/posts';
+import { getAll, getByCategory, vote } from '../actions/posts';
 import { insertSubscription } from '../actions/subscription';
 
 class Home extends React.Component {
@@ -26,60 +25,52 @@ class Home extends React.Component {
   }
 
   render() {
-    return (
-      <section className="container">
-        <div className="columns">
-          <div className="column is-3">
-            <Sidemenu />
-          </div>
-          <div className="column is-9">
-            {this.props.loading ? (
-              <div>Loading...</div>
-            ) : (
-              <div>
-                <div className="content">
-                  <div className="is-clearfix">
-                    <h1 className="is-pulled-left">{this.props.isPopular ? 'Popular' : this.props.category.name}</h1>
-                    {!this.props.isPopular &&
-                      this.props.user && (
-                        <div className="is-pulled-right">
-                          <button
-                            className={`button is-primary ${this.props.subscriptionLoading ? 'is-loading' : ''}`}
-                            onClick={() =>
-                              this.props.insertSubscription(
-                                this.props.category,
-                                this.props.user,
-                                this.props.subscriptions && this.props.subscriptions.filter(s => s.category === this.props.category.link).length > 0
-                              )
-                            }
-                          >
-                            <span>
-                              {this.props.subscriptions && this.props.subscriptions.filter(s => s.category === this.props.category.link).length
-                                ? 'Subscribed'
-                                : 'Subscribe'}
-                            </span>
-                          </button>
-                        </div>
-                      )}
-                  </div>
-                  <p>{this.props.isPopular ? "See what's interesting around you" : this.props.category.description}</p>
-
-                  <div>
-                    <span className="icon is-medium has-text-primary">
-                      <i className="fas fa-th-list" />
+    return this.props.loading ? (
+      <div>Loading...</div>
+    ) : (
+      <div>
+        <div className="content">
+          <div className="is-clearfix">
+            <h1 className="is-pulled-left">{this.props.isPopular ? 'Popular' : this.props.category.name}</h1>
+            {!this.props.isPopular &&
+              this.props.user && (
+                <div className="is-pulled-right">
+                  <button
+                    className={`button is-primary ${this.props.subscriptionLoading ? 'is-loading' : ''}`}
+                    onClick={() =>
+                      this.props.insertSubscription(
+                        this.props.category,
+                        this.props.user,
+                        this.props.subscriptions && this.props.subscriptions.filter(s => s.category === this.props.category.link).length > 0
+                      )
+                    }
+                  >
+                    <span>
+                      {this.props.subscriptions && this.props.subscriptions.filter(s => s.category === this.props.category.link).length
+                        ? 'Subscribed'
+                        : 'Subscribe'}
                     </span>
-                    <span className="icon is-medium">
-                      <i className="fas fa-th-large" />
-                    </span>
-                  </div>
+                  </button>
                 </div>
+              )}
+          </div>
+          <p>{this.props.isPopular ? "See what's interesting around you" : this.props.category.description}</p>
 
-                {this.props.posts && this.props.posts.sort((a, b) => b.voteScore - a.voteScore).map(post => <Post key={post.id} post={post} />)}
-              </div>
-            )}
+          <div>
+            <span className="icon is-medium has-text-primary">
+              <i className="fas fa-th-list" />
+            </span>
+            <span className="icon is-medium">
+              <i className="fas fa-th-large" />
+            </span>
           </div>
         </div>
-      </section>
+
+        {this.props.posts &&
+          this.props.posts
+            .sort((a, b) => b.voteScore - a.voteScore)
+            .map(post => <Post key={post.id} vote={this.props.vote} post={post} isPopular={this.props.isPopular} />)}
+      </div>
     );
   }
 }
@@ -116,6 +107,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
   getPosts: category => dispatch(category ? getByCategory(category) : getAll()),
   insertSubscription: (category, user, remove) => dispatch(insertSubscription({ category, user }, remove)),
+  vote: (post, type) => dispatch(vote(post, type)),
 });
 
 export default connect(
