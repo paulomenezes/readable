@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 import { loginModal, registerModal, addCategoryModal, addPostModal } from '../actions/ui';
 
@@ -10,12 +10,12 @@ const Sidemenu = props => {
       <p className="menu-label">feeds</p>
       <ul className="menu-list">
         <li>
-          <Link to="/" className={!props.currentCategory ? 'is-active' : ''}>
+          <NavLink to="/" exact activeClassName="is-active">
             <span className="icon">
               <i className="fas fa-fire" />
             </span>
             Popular
-          </Link>
+          </NavLink>
         </li>
       </ul>
 
@@ -28,9 +28,9 @@ const Sidemenu = props => {
             <ul className="menu-list">
               {props.subscriptions.map(subscription => (
                 <li key={subscription.category}>
-                  <Link to={`/e/${subscription.category}`} className={subscription.category === props.currentCategory ? 'is-active' : ''}>
+                  <NavLink to={`/e/${subscription.category}`} activeClassName="is-active">
                     e/{subscription.category}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -45,9 +45,9 @@ const Sidemenu = props => {
           {props.categories &&
             props.categories.map(category => (
               <li key={category.link}>
-                <Link to={`/e/${category.link}`} className={category.link === props.currentCategory ? 'is-active' : ''}>
+                <NavLink to={`/e/${category.link}`} activeClassName="is-active">
                   e/{category.link}
-                </Link>
+                </NavLink>
               </li>
             ))}
         </ul>
@@ -97,14 +97,12 @@ const Sidemenu = props => {
   );
 };
 
-const mapStateToProps = (state, props) => {
-  return {
-    user: state.user.user,
-    subscriptions: state.subscription.subscriptions,
-    categories: state.categories.categories,
-    currentCategory: props.match && props.match.params && props.match.params.category,
-  };
-};
+const mapStateToProps = (state, props) => ({
+  user: state.user.user,
+  subscriptions: state.subscription.subscriptions,
+  categories: state.categories.categories,
+  currentCategory: props.match && props.match.params && props.match.params.category,
+});
 
 const mapDispatchToProps = dispatch => ({
   openLogin: opened => dispatch(loginModal(opened)),

@@ -1,4 +1,5 @@
 import { registerModal, loginModal } from './ui';
+import { cleanSubscription } from './subscription';
 import * as UserAPI from '../services/user';
 
 export const USER_LOADING = 'USER_LOADING';
@@ -7,16 +8,16 @@ export const USER_ERROR = 'USER_ERROR';
 
 export const isLoading = (loading = true) => ({
   type: USER_LOADING,
-  loading
+  loading,
 });
 
 export const userSuccess = user => ({
   type: USER_SUCCESS,
-  user
+  user,
 });
 
 export const userError = () => ({
-  type: USER_ERROR
+  type: USER_ERROR,
 });
 
 export const loadUser = () => dispatch => {
@@ -67,4 +68,5 @@ export const logout = () => dispatch => {
   localStorage.removeItem('user');
 
   dispatch(userSuccess(undefined));
+  dispatch(cleanSubscription());
 };

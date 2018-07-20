@@ -33,7 +33,7 @@ class PostForm extends React.Component {
             boxShadow: '0 0 50px 0 rgba(0, 0, 0, 0.5)',
             left: 'calc(50% - 250px)',
             width: 500,
-            height: 375,
+            height: 420,
           },
         }}
       >
@@ -78,6 +78,7 @@ class PostForm extends React.Component {
                 value={this.state.description}
               />
             </p>
+            <i>You can use MarkDown</i>
           </div>
           <div className="field">
             <p className="control is-pulled-right">

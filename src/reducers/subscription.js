@@ -4,6 +4,7 @@ import {
   SUBSCRIPTION_ERROR,
   SUBSCRIPTION_LOAD,
   SUBSCRIPTION_REMOVE_SUCCESS,
+  SUBSCRIPTION_CLEAN,
 } from '../actions/subscription';
 
 const initialState = {
@@ -46,6 +47,11 @@ const reducer = (state = initialState, action) => {
         error: false,
         success: true,
         subscriptions: state.subscriptions.filter(s => s.category !== action.subscription.category),
+      };
+    case SUBSCRIPTION_CLEAN:
+      return {
+        ...state,
+        subscriptions: [],
       };
     default:
       return state;

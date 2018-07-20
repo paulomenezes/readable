@@ -5,6 +5,7 @@ export const SUBSCRIPTION_LOAD = 'SUBSCRIPTION_LOAD';
 export const SUBSCRIPTION_SUCCESS = 'SUBSCRIPTION_SUCCESS';
 export const SUBSCRIPTION_REMOVE_SUCCESS = 'SUBSCRIPTION_REMOVE_SUCCESS';
 export const SUBSCRIPTION_ERROR = 'SUBSCRIPTION_ERROR';
+export const SUBSCRIPTION_CLEAN = 'SUBSCRIPTION_CLEAN';
 
 export const isLoading = (loading = true) => ({
   type: SUBSCRIPTION_LOADING,
@@ -28,6 +29,10 @@ export const subscriptionRemoveSuccess = subscription => ({
 
 export const subscriptionError = () => ({
   type: SUBSCRIPTION_ERROR,
+});
+
+export const subscriptionClean = () => ({
+  type: SUBSCRIPTION_CLEAN,
 });
 
 export const loadSubscriptions = user => async dispatch => {
@@ -66,4 +71,8 @@ export const insertSubscription = ({ category, user }, remove) => async dispatch
       dispatch(subscriptionError());
     }
   }
+};
+
+export const cleanSubscription = () => dispatch => {
+  dispatch(subscriptionClean());
 };

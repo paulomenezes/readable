@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { logout } from '../actions/user';
 import { loginModal, registerModal } from '../actions/ui';
@@ -11,7 +12,9 @@ const Header = props => {
         <div className="columns">
           <div className="column is-3">
             <h1 className="title">
-              readab<i className="has-text-primary">l</i>e
+              <Link to="/">
+                readab<i className="has-text-primary">l</i>e
+              </Link>
             </h1>
           </div>
           <div className="column is-6">

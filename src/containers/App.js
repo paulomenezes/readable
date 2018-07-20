@@ -14,7 +14,7 @@ import Register from '../components/Register';
 import CategoryForm from '../components/CategoryForm';
 import PostForm from '../components/PostForm';
 
-import Home from './Home';
+import PostList from './PostList';
 import PostDetail from './PostDetail';
 
 class App extends Component {
@@ -40,8 +40,8 @@ class App extends Component {
                 <Sidemenu />
               </div>
               <div className="column is-9">
-                <Route exact path="/" component={Home} />
-                <Route exact path="/e/:category" component={Home} />
+                <Route exact path="/" component={PostList} />
+                <Route exact path="/e/:category" component={PostList} />
                 <Route exact path="/e/:category/:id" component={PostDetail} />
               </div>
             </div>

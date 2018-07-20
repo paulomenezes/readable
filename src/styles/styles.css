@@ -6458,3 +6458,6 @@ label.panel-block {
   .card .card-content {
     width: calc(100% - 30px);
     padding-left: calc(1.5rem - 10px); }
+
+.title a {
+  color: #363636 !important; }
