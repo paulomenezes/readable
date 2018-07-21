@@ -1,21 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import { vote } from '../actions/posts';
-
-const Vote = ({ post, vote }) => (
+const Vote = ({ score, onClick }) => (
   <div className="card-votes">
-    <i onClick={() => vote(post, 'up')} className="fas fa-chevron-up" />
-    <div>{post.voteScore}</div>
-    <i onClick={() => vote(post, 'down')} className="fas fa-chevron-down" />
+    <i onClick={() => onClick('up')} className="fas fa-chevron-up" />
+    <div>{score}</div>
+    <i onClick={() => onClick('down')} className="fas fa-chevron-down" />
   </div>
 );
 
-const mapDispatchToProps = dispatch => ({
-  vote: (post, type) => dispatch(vote(post, type)),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Vote);
+export default Vote;

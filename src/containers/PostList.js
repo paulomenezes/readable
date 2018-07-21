@@ -9,9 +9,9 @@ import { insertSubscription } from '../actions/subscription';
 class PostList extends React.Component {
   componentDidMount() {
     if (this.props.isPopular) {
-      this.props.getPosts(undefined);
+      this.props.getAll();
     } else if (!this.props.loading) {
-      this.props.getPosts(this.props.category.link);
+      this.props.getByCategory(this.props.category.link);
     }
   }
 
@@ -20,7 +20,7 @@ class PostList extends React.Component {
       !this.props.isPopular &&
       ((prevProps.loading && !this.props.loading) || (prevProps.category && prevProps.category.link !== this.props.category.link))
     ) {
-      this.props.getPosts(this.props.category.link);
+      this.props.getByCategory(this.props.category.link);
     }
   }
 
@@ -57,10 +57,7 @@ class PostList extends React.Component {
           <p>{this.props.isPopular ? "See what's interesting around you" : this.props.category.description}</p>
         </div>
 
-        {this.props.posts &&
-          this.props.posts
-            .sort((a, b) => b.voteScore - a.voteScore)
-            .map(post => <Post key={post.id} vote={this.props.vote} post={post} isPopular={this.props.isPopular} />)}
+        {this.props.posts && this.props.posts.sort((a, b) => b.voteScore - a.voteScore).map(post => <Post key={post.id} post={post} />)}
       </div>
     );
   }
@@ -96,7 +93,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getPosts: category => dispatch(category ? getByCategory(category) : getAll()),
+  getAll: () => dispatch(getAll()),
+  getByCategory: category => dispatch(getByCategory(category)),
   insertSubscription: (category, user, remove) => dispatch(insertSubscription({ category, user }, remove)),
   vote: (post, type) => dispatch(vote(post, type)),
 });

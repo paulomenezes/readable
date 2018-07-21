@@ -19,6 +19,16 @@ class PostForm extends React.Component {
     });
   };
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.isEditPost && this.props.isEditPost) {
+      this.setState({
+        title: this.props.post.name,
+        description: this.props.post.description,
+        category: this.props.post.category,
+      });
+    }
+  }
+
   render() {
     return (
       <Modal
@@ -49,7 +59,7 @@ class PostForm extends React.Component {
                 <option>Select a category</option>
                 {this.props.categories &&
                   this.props.categories.map(category => (
-                    <option key={category.link} value={category.link}>
+                    <option key={category.link} value={category.link} selected={this.state.category}>
                       {category.name}
                     </option>
                   ))}
@@ -85,7 +95,7 @@ class PostForm extends React.Component {
               <button
                 className={`button is-primary ${this.props.loading && 'is-loading'}`}
                 disabled={this.props.loading || !this.state.title || !this.state.description || !this.state.category}
-                onClick={() => this.props.insertPost(this.state.title, this.state.description, this.state.category, this.props.user)}
+                onClick={() => this.props.insertPost(this.props.post, this.state.title, this.state.description, this.state.category, this.props.user)}
               >
                 Create
               </button>
@@ -99,6 +109,8 @@ class PostForm extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   isOpen: state.ui.isAddPostOpened,
+  isEditPost: state.ui.editPostId,
+  post: state.ui.editPostId && state.posts.posts.filter(p => p.id === state.ui.editPostId)[0],
   loading: state.posts.loading,
   categories: state.categories.categories,
   user: state.user.user,
@@ -106,7 +118,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = dispatch => ({
   openModal: opened => dispatch(addPostModal(opened)),
-  insertPost: (name, description, category, user) => dispatch(insertPost({ name, description, category, user })),
+  insertPost: (originalPost, name, description, category, user) => dispatch(insertPost({ originalPost, name, description, category, user })),
 });
 
 export default withRouter(

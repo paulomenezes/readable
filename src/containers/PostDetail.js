@@ -7,6 +7,8 @@ import { getById, vote } from '../actions/posts';
 import { getByPost, insertComment, vote as commentVote, cleanComments } from '../actions/comments';
 import Post from '../components/Post';
 
+import Vote from '../components/Vote';
+
 class PostDetail extends React.Component {
   state = {
     comment: '',
@@ -57,7 +59,7 @@ class PostDetail extends React.Component {
       <div>
         {this.props.post ? (
           <div>
-            <Post post={this.props.post} vote={this.props.vote} />
+            <Post />
 
             {this.props.user && (
               <div>
@@ -98,14 +100,11 @@ class PostDetail extends React.Component {
             )}
 
             <div>
+              <br />
               {this.props.comments &&
                 this.props.comments.sort(this.commentsSort).map(comment => (
                   <div className="card" key={comment.id}>
-                    <div className="card-votes">
-                      <i onClick={() => this.props.commentVote(comment, 'up')} className="fas fa-chevron-up" />
-                      <div>{comment.voteScore}</div>
-                      <i onClick={() => this.props.commentVote(comment, 'down')} className="fas fa-chevron-down" />
-                    </div>
+                    <Vote score={comment.voteScore} onClick={type => this.props.commentVote(comment, type)} />
 
                     <div className="card-content">
                       <div className="content">

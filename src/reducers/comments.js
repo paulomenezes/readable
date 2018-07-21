@@ -37,7 +37,7 @@ const reducer = (state = initialState, action) => {
     case COMMENT_VOTE_SUCCESS:
       return {
         ...state,
-        comments: state.comments.map(p => (p.id === action.comment.id ? action.comment : p)),
+        comments: state.comments.map(p => (p.id === action.comment.id ? { ...p, voteScore: action.voteScore } : p)),
       };
     case COMMENT_CLEAN:
       return {

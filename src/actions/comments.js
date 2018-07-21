@@ -26,9 +26,10 @@ export const commentError = () => ({
   type: COMMENT_ERROR,
 });
 
-export const commentVoteSuccess = comment => ({
+export const commentVoteSuccess = (comment, voteScore) => ({
   type: COMMENT_VOTE_SUCCESS,
   comment,
+  voteScore,
 });
 
 export const commentClean = () => ({
@@ -90,9 +91,7 @@ export const vote = (comment, type) => async dispatch => {
 
       await CommentAPI.vote(comment, voteScore);
 
-      comment.voteScore = voteScore;
-
-      dispatch(commentVoteSuccess(comment));
+      dispatch(commentVoteSuccess(comment, voteScore));
     } catch (error) {
       dispatch(commentError());
     }

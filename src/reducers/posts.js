@@ -33,11 +33,12 @@ const reducer = (state = initialState, action) => {
         loading: false,
         error: true,
         success: false,
+        posts: [],
       };
     case POST_VOTE_SUCCESS:
       return {
         ...state,
-        posts: state.posts.map(p => (p.id === action.post.id ? action.post : p)),
+        posts: state.posts.map(p => (p.id === action.post.id ? { ...p, voteScore: action.voteScore } : p)),
       };
     default:
       return state;
