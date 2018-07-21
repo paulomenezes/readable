@@ -3,16 +3,24 @@ import { connect } from 'react-redux';
 import Markdown from 'react-remarkable';
 import moment from 'moment';
 
-import { getById, vote } from '../actions/posts';
+import { getAll, vote } from '../actions/posts';
 import { getByPost, insertComment, vote as commentVote, cleanComments } from '../actions/comments';
+import { editComment, confirmModal } from '../actions/ui';
+
 import Post from '../components/Post';
 
 import Vote from '../components/Vote';
 
 class PostDetail extends React.Component {
   state = {
-    comment: '',
+    description: '',
   };
+
+  constructor(props) {
+    super(props);
+
+    this.commentInputRef = React.createRef();
+  }
 
   updateField = (field, value) => {
     this.setState({
@@ -22,7 +30,7 @@ class PostDetail extends React.Component {
 
   componentDidMount() {
     if (!this.props.post) {
-      this.props.getPost(this.props.match.params.category, this.props.match.params.id);
+      this.props.getPost();
     } else {
       this.props.getByPost(this.props.post);
     }
@@ -32,6 +40,12 @@ class PostDetail extends React.Component {
     if (!prevProps.post && this.props.post) {
       this.props.getByPost(this.props.post);
     }
+
+    if (prevProps.commentToEdit !== this.props.commentToEdit) {
+      this.setState({
+        description: this.props.commentToEdit ? this.props.commentToEdit.description : '',
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -39,7 +53,7 @@ class PostDetail extends React.Component {
   }
 
   submit = () => {
-    this.props.insertComment(this.props.post, this.props.user, this.state.description);
+    this.props.insertComment(this.props.post, this.props.user, this.state.description, this.props.commentToEdit);
 
     this.setState({
       description: '',
@@ -57,7 +71,7 @@ class PostDetail extends React.Component {
   render() {
     return (
       <div>
-        {this.props.post ? (
+        {this.props.postSuccess && this.props.post ? (
           <div>
             <Post />
 
@@ -71,6 +85,7 @@ class PostDetail extends React.Component {
                         <div className="field">
                           <p className="control">
                             <textarea
+                              ref={this.commentInputRef}
                               className="textarea"
                               placeholder="Add a comment..."
                               onChange={event => this.updateField('description', event.target.value)}
@@ -80,10 +95,15 @@ class PostDetail extends React.Component {
                         </div>
                         <nav className="level">
                           <div className="level-left">
-                            <div className="level-item">
+                            <div className="level-item buttons">
                               <button type="submit" className="button is-primary" onClick={this.submit}>
-                                Submit
+                                {this.props.commentToEdit ? 'Edit' : 'Submit'}
                               </button>
+                              {this.props.commentToEdit && (
+                                <button type="submit" className="button is-outlined" onClick={() => this.props.editComment(undefined)}>
+                                  Cancel
+                                </button>
+                              )}
                             </div>
                           </div>
                           <div className="level-right">
@@ -102,23 +122,56 @@ class PostDetail extends React.Component {
             <div>
               <br />
               {this.props.comments &&
-                this.props.comments.sort(this.commentsSort).map(comment => (
-                  <div className="card" key={comment.id}>
-                    <Vote score={comment.voteScore} onClick={type => this.props.commentVote(comment, type)} />
+                this.props.comments
+                  .filter(c => !c.deleted)
+                  .sort(this.commentsSort)
+                  .map(comment => (
+                    <div className="card" key={comment.id}>
+                      <Vote score={comment.voteScore} onClick={type => this.props.commentVote(comment, type)} />
 
-                    <div className="card-content">
-                      <div className="content">
-                        <Markdown>{comment.description}</Markdown>
-                        <br />
-                        <time>
-                          {comment.author}, {moment(comment.timestamp).fromNow()}
-                        </time>
+                      <div className="card-content">
+                        <div className="content">
+                          <Markdown>{comment.description}</Markdown>
+                          <br />
+                          <time>
+                            {comment.author}, {moment(comment.timestamp).fromNow()}
+                          </time>
+
+                          {this.props.user &&
+                            this.props.user.username === comment.author &&
+                            !comment.deleted && (
+                              <div>
+                                <br />
+                                <p className="buttons">
+                                  <button
+                                    className="button is-primary is-outlined"
+                                    onClick={() => {
+                                      this.props.editComment(comment);
+                                      this.commentInputRef.current.focus();
+                                    }}
+                                  >
+                                    <span className="icon is-small">
+                                      <i className="far fa-edit" />
+                                    </span>
+                                    <span>Edit</span>
+                                  </button>
+                                  <button className="button is-danger is-outlined" onClick={() => this.props.confirmModal(comment)}>
+                                    <span className="icon is-small">
+                                      <i className="fas fa-times" />
+                                    </span>
+                                    <span>Delete</span>
+                                  </button>
+                                </p>
+                              </div>
+                            )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
             </div>
           </div>
+        ) : this.props.postSuccess ? (
+          'Post not found, sorry'
         ) : (
           'loading...'
         )}
@@ -130,18 +183,22 @@ class PostDetail extends React.Component {
 const mapStateToProps = (state, props) => {
   return {
     post: state.posts.posts.filter(p => p.id === props.match.params.id)[0],
+    postSuccess: state.posts.success,
     user: state.user.user,
     comments: state.comments.comments,
+    commentToEdit: state.ui.editComment,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  getPost: (category, id) => dispatch(getById(category, id)),
+  getPost: () => dispatch(getAll()),
   vote: (post, type) => dispatch(vote(post, type)),
   commentVote: (comment, type) => dispatch(commentVote(comment, type)),
   getByPost: post => dispatch(getByPost(post)),
-  insertComment: (post, user, description) => dispatch(insertComment(post, user, description)),
+  insertComment: (post, user, description, commentToEdit) => dispatch(insertComment(post, user, description, commentToEdit)),
   cleanComments: () => dispatch(cleanComments()),
+  editComment: comment => dispatch(editComment(comment)),
+  confirmModal: comment => dispatch(confirmModal(true, 'comment', comment)),
 });
 
 export default connect(

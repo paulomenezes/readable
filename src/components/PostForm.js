@@ -55,11 +55,11 @@ class PostForm extends React.Component {
           <br />
           <div className="field">
             <div className="select">
-              <select onChange={event => this.updateField('category', event.target.value)}>
+              <select onChange={event => this.updateField('category', event.target.value)} value={this.state.category}>
                 <option>Select a category</option>
                 {this.props.categories &&
                   this.props.categories.map(category => (
-                    <option key={category.link} value={category.link} selected={this.state.category}>
+                    <option key={category.link} value={category.link}>
                       {category.name}
                     </option>
                   ))}
@@ -97,7 +97,7 @@ class PostForm extends React.Component {
                 disabled={this.props.loading || !this.state.title || !this.state.description || !this.state.category}
                 onClick={() => this.props.insertPost(this.props.post, this.state.title, this.state.description, this.state.category, this.props.user)}
               >
-                Create
+                {this.props.isEditPost ? 'Edit' : 'Create'}
               </button>
             </p>
           </div>

@@ -13,6 +13,7 @@ import Login from '../components/Login';
 import Register from '../components/Register';
 import CategoryForm from '../components/CategoryForm';
 import PostForm from '../components/PostForm';
+import ConfirmModal from '../components/ConfirmModal';
 
 import PostList from './PostList';
 import PostDetail from './PostDetail';
@@ -42,7 +43,7 @@ class App extends Component {
               <div className="column is-9">
                 <Route exact path="/" component={PostList} />
                 <Route exact path="/e/:category" component={PostList} />
-                <Route exact path="/e/:category/:id" component={PostDetail} />
+                <Route exact path="/p/:id" component={PostDetail} />
               </div>
             </div>
           </section>
@@ -54,6 +55,7 @@ class App extends Component {
           <Register />
           <CategoryForm />
           <PostForm />
+          <ConfirmModal />
         </section>
       </BrowserRouter>
     );

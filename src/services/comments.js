@@ -23,3 +23,13 @@ export const vote = (comment, newScore) =>
     },
     body: JSON.stringify(newScore),
   });
+
+export const remove = comment =>
+  fetch(url(`comments/${comment.postId}/${comment.id}/deleted`), {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(true),
+  });

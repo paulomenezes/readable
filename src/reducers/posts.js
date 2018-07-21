@@ -1,4 +1,4 @@
-import { POST_LOADING, POST_SUCCESS, POST_ERROR, POST_LOAD, POST_VOTE_SUCCESS } from '../actions/posts';
+import { POST_LOADING, POST_SUCCESS, POST_EDIT_SUCCESS, POST_ERROR, POST_LOAD, POST_VOTE_SUCCESS, POST_DELETE_SUCCESS } from '../actions/posts';
 
 const initialState = {
   loading: false,
@@ -26,7 +26,14 @@ const reducer = (state = initialState, action) => {
         loading: false,
         error: false,
         success: true,
-        posts: [...state.posts, action.posts],
+        posts: [...state.posts, action.post],
+      };
+    case POST_EDIT_SUCCESS:
+      return {
+        loading: false,
+        error: false,
+        success: true,
+        posts: state.posts.map(p => (p.id === action.post.id ? action.post : p)),
       };
     case POST_ERROR:
       return {
@@ -39,6 +46,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         posts: state.posts.map(p => (p.id === action.post.id ? { ...p, voteScore: action.voteScore } : p)),
+      };
+    case POST_DELETE_SUCCESS:
+      return {
+        ...state,
+        posts: state.posts.filter(p => p.id !== action.post.id),
       };
     default:
       return state;

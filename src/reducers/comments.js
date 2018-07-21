@@ -1,4 +1,13 @@
-import { COMMENT_LOADING, COMMENT_SUCCESS, COMMENT_ERROR, COMMENT_LOAD, COMMENT_VOTE_SUCCESS, COMMENT_CLEAN } from '../actions/comments';
+import {
+  COMMENT_LOADING,
+  COMMENT_SUCCESS,
+  COMMENT_ERROR,
+  COMMENT_LOAD,
+  COMMENT_VOTE_SUCCESS,
+  COMMENT_CLEAN,
+  COMMENT_EDIT_SUCCESS,
+  COMMENT_DELETE_SUCCESS,
+} from '../actions/comments';
 
 const initialState = {
   loading: false,
@@ -43,6 +52,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         comments: [],
+      };
+    case COMMENT_EDIT_SUCCESS:
+      return {
+        ...state,
+        comments: state.comments.map(c => (c.id === action.comment.id ? action.comment : c)),
+      };
+    case COMMENT_DELETE_SUCCESS:
+      return {
+        ...state,
+        comments: state.comments.filter(c => c.id !== action.comment.id),
       };
     default:
       return state;

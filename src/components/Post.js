@@ -6,9 +6,9 @@ import moment from 'moment';
 
 import Vote from '../components/Vote';
 import { vote } from '../actions/posts';
-import { editPostModal } from '../actions/ui';
+import { editPostModal, confirmModal } from '../actions/ui';
 
-const Post = ({ post, vote, isPopular, user, editPostModal }) => (
+const Post = ({ post, vote, isPopular, user, editPostModal, confirmModal }) => (
   <div className="card">
     <Vote score={post.voteScore} onClick={type => vote(post, type)} />
 
@@ -16,7 +16,7 @@ const Post = ({ post, vote, isPopular, user, editPostModal }) => (
       <div className="media">
         <div className="media-content">
           <p className="title is-4">
-            <Link to={`/e/${post.category}/${post.id}`}>{post.name}</Link>
+            <Link to={`/p/${post.id}`}>{post.name}</Link>
           </p>
         </div>
       </div>
@@ -28,14 +28,19 @@ const Post = ({ post, vote, isPopular, user, editPostModal }) => (
           {post.author}, {moment(post.timestamp).fromNow()}
         </time>
         <br />
-        {isPopular && (
-          <Link to={`/e/${post.category}`}>
-            <span className="tag is-primary">e/{post.category}</span>
-          </Link>
-        )}
+
+        <div>
+          {isPopular && (
+            <Link to={`/e/${post.category}`} className="mr-5">
+              <span className="tag is-primary">e/{post.category}</span>
+            </Link>
+          )}
+          {post.deleted && <span className="tag is-danger">This post was deleted</span>}
+        </div>
 
         {user &&
-          user.username === post.author && (
+          user.username === post.author &&
+          !post.deleted && (
             <div>
               <br />
               <p className="buttons">
@@ -45,12 +50,12 @@ const Post = ({ post, vote, isPopular, user, editPostModal }) => (
                   </span>
                   <span>Edit</span>
                 </button>
-                <a className="button is-danger is-outlined">
+                <button className="button is-danger is-outlined" onClick={() => confirmModal(post)}>
                   <span className="icon is-small">
                     <i className="fas fa-times" />
                   </span>
                   <span>Delete</span>
-                </a>
+                </button>
               </p>
             </div>
           )}
@@ -70,6 +75,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
   vote: (post, type) => dispatch(vote(post, type)),
   editPostModal: postId => dispatch(editPostModal(true, postId)),
+  confirmModal: post => dispatch(confirmModal(true, 'post', post)),
 });
 
 export default withRouter(

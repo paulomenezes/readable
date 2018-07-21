@@ -18,6 +18,15 @@ export const insertPost = post =>
     body: JSON.stringify(post),
   });
 
+export const deletePost = (category, id) =>
+  fetch(url(`posts/${category}/${id}`), {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
+
 export const vote = (post, newScore) =>
   fetch(url(`posts/${post.category}/${post.id}/voteScore`), {
     method: 'PUT',
@@ -26,4 +35,14 @@ export const vote = (post, newScore) =>
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(newScore),
+  });
+
+export const remove = post =>
+  fetch(url(`posts/${post.category}/${post.id}/deleted`), {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(true),
   });

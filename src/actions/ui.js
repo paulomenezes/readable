@@ -3,6 +3,9 @@ export const REGISTER_MODAL = 'REGISTER_MODAL';
 export const ADD_CATEGORY_MODAL = 'ADD_CATEGORY_MODAL';
 export const ADD_POST_MODAL = 'ADD_POST_MODAL';
 export const EDIT_POST_MODAL = 'EDIT_POST_MODAL';
+export const CONFIRM_MODAL = 'CONFIRM_MODAL';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const EDIT_COMMENT_SUCCESS = 'EDIT_COMMENT_SUCCESS';
 
 export const loginModal = opened => ({
   type: LOGIN_MODAL,
@@ -28,4 +31,21 @@ export const editPostModal = (opened, postId) => ({
   type: EDIT_POST_MODAL,
   opened,
   postId,
+});
+
+export const editComment = comment => ({
+  type: EDIT_COMMENT,
+  comment,
+});
+
+export const editCommentSuccess = comment => ({
+  type: EDIT_COMMENT,
+  comment,
+});
+
+export const confirmModal = (opened, title, item) => ({
+  type: CONFIRM_MODAL,
+  opened,
+  title,
+  item,
 });

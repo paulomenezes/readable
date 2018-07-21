@@ -57,6 +57,9 @@ class PostList extends React.Component {
           <p>{this.props.isPopular ? "See what's interesting around you" : this.props.category.description}</p>
         </div>
 
+        {this.props.posts &&
+          this.props.posts.length === 0 && <div class="notification is-info">No one posts found, be the first and insert something</div>}
+
         {this.props.posts && this.props.posts.sort((a, b) => b.voteScore - a.voteScore).map(post => <Post key={post.id} post={post} />)}
       </div>
     );
