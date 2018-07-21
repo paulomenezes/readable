@@ -1,6 +1,6 @@
 import { LOGIN_MODAL, REGISTER_MODAL, ADD_CATEGORY_MODAL, ADD_POST_MODAL, EDIT_POST_MODAL, CONFIRM_MODAL, EDIT_COMMENT } from '../actions/ui';
 
-const initilState = {
+export const initilState = {
   isLoginOpened: false,
   isRegisterOpened: false,
   isAddCategoryOpened: false,
