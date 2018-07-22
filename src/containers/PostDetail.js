@@ -8,7 +8,7 @@ import { getByPost, insertComment, vote as commentVote, cleanComments } from '..
 import { editComment, confirmModal } from '../actions/ui';
 
 import Post from '../components/Post';
-
+import Loading from '../components/Loading';
 import Vote from '../components/Vote';
 
 class PostDetail extends React.Component {
@@ -171,9 +171,9 @@ class PostDetail extends React.Component {
             </div>
           </div>
         ) : this.props.postSuccess ? (
-          'Post not found, sorry'
+          <div className="notification is-info">Post not found, sorry</div>
         ) : (
-          'loading...'
+          <Loading />
         )}
       </div>
     );

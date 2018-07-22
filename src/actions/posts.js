@@ -46,6 +46,8 @@ export const postDeleteSuccess = post => ({
 });
 
 export const getAll = () => async dispatch => {
+  dispatch(isLoading(true));
+
   try {
     const response = await PostAPI.getAll();
     const posts = await response.json();

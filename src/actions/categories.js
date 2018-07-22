@@ -26,6 +26,8 @@ export const categoryError = () => ({
 });
 
 export const loadCategories = () => async dispatch => {
+  dispatch(isLoading(true));
+
   try {
     const response = await CategoryAPI.getAll();
     let categories = await response.json();

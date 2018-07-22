@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Post from '../components/Post';
+import Loading from '../components/Loading';
 
 import { getAll, getByCategory, vote } from '../actions/posts';
 import { insertSubscription } from '../actions/subscription';
@@ -10,7 +11,7 @@ class PostList extends React.Component {
   componentDidMount() {
     if (this.props.isPopular) {
       this.props.getAll();
-    } else if (!this.props.loading) {
+    } else if (!this.props.loadingCategories && this.props.category) {
       this.props.getByCategory(this.props.category.link);
     }
   }
@@ -25,8 +26,8 @@ class PostList extends React.Component {
   }
 
   render() {
-    return this.props.loading ? (
-      <div>Loading...</div>
+    return this.props.loadingPost || this.props.loadingCategories || (!this.props.isPopular && !this.props.category) ? (
+      <Loading />
     ) : (
       <div>
         <div className="content">
@@ -58,7 +59,7 @@ class PostList extends React.Component {
         </div>
 
         {this.props.posts &&
-          this.props.posts.length === 0 && <div class="notification is-info">No one posts found, be the first and insert something</div>}
+          this.props.posts.length === 0 && <div className="notification is-info">No one posts found, be the first and insert something</div>}
 
         {this.props.posts && this.props.posts.sort((a, b) => b.voteScore - a.voteScore).map(post => <Post key={post.id} post={post} />)}
       </div>
@@ -68,7 +69,7 @@ class PostList extends React.Component {
 
 const mapStateToProps = (state, props) => {
   let category = undefined;
-  let loading = false;
+  // let loading = state.posts.loading;
 
   if (props.match.path !== '/') {
     if (state.categories.categories.length > 0) {
@@ -79,7 +80,7 @@ const mapStateToProps = (state, props) => {
         props.history.push('/error');
       }
     } else {
-      loading = true;
+      // loading = true;
     }
   }
 
@@ -87,7 +88,8 @@ const mapStateToProps = (state, props) => {
     path: props.match.path,
     isPopular: props.match.path === '/',
     category,
-    loading,
+    loadingCategories: state.categories.loading,
+    loadingPost: state.posts.loading,
     posts: state.posts.posts,
     user: state.user.user,
     subscriptions: state.subscription.subscriptions,
