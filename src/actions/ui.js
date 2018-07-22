@@ -6,6 +6,7 @@ export const EDIT_POST_MODAL = 'EDIT_POST_MODAL';
 export const CONFIRM_MODAL = 'CONFIRM_MODAL';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
 export const EDIT_COMMENT_SUCCESS = 'EDIT_COMMENT_SUCCESS';
+export const EDIT_SORT = 'EDIT_SORT';
 
 export const loginModal = opened => ({
   type: LOGIN_MODAL,
@@ -33,9 +34,10 @@ export const editPostModal = (opened, postId) => ({
   postId,
 });
 
-export const editComment = comment => ({
+export const editComment = (comment, post) => ({
   type: EDIT_COMMENT,
   comment,
+  post,
 });
 
 export const editCommentSuccess = comment => ({
@@ -43,9 +45,15 @@ export const editCommentSuccess = comment => ({
   comment,
 });
 
-export const confirmModal = (opened, title, item) => ({
+export const confirmModal = (opened, title, item, post) => ({
   type: CONFIRM_MODAL,
   opened,
   title,
   item,
+  post,
+});
+
+export const editSort = sort => ({
+  type: EDIT_SORT,
+  sort,
 });

@@ -1,4 +1,13 @@
-import { POST_LOADING, POST_SUCCESS, POST_EDIT_SUCCESS, POST_ERROR, POST_LOAD, POST_VOTE_SUCCESS, POST_DELETE_SUCCESS } from '../actions/posts';
+import {
+  POST_LOADING,
+  POST_SUCCESS,
+  POST_EDIT_SUCCESS,
+  POST_ERROR,
+  POST_LOAD,
+  POST_VOTE_SUCCESS,
+  POST_DELETE_SUCCESS,
+  POST_INCREMENT_COMMENT,
+} from '../actions/posts';
 
 const initialState = {
   loading: false,
@@ -51,6 +60,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         posts: state.posts.filter(p => p.id !== action.post.id),
+      };
+    case POST_INCREMENT_COMMENT:
+      return {
+        ...state,
+        posts: state.posts.map(p => (p.id === action.post.id ? { ...p, commentCount: action.newCounter } : p)),
       };
     default:
       return state;

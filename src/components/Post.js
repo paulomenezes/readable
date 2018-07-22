@@ -35,6 +35,7 @@ const Post = ({ post, vote, isPopular, user, editPostModal, confirmModal }) => (
               <span className="tag is-primary">e/{post.category}</span>
             </Link>
           )}
+          {<span className="tag is-primary">Comments: {post.commentCount}</span>}
           {post.deleted && <span className="tag is-danger">This post was deleted</span>}
         </div>
 

@@ -96,7 +96,11 @@ class PostDetail extends React.Component {
                         <nav className="level">
                           <div className="level-left">
                             <div className="level-item buttons">
-                              <button type="submit" className="button is-primary" onClick={this.submit}>
+                              <button
+                                type="submit"
+                                className={`button is-primary ${this.props.commentLoading ? 'is-loading' : ''}`}
+                                onClick={this.submit}
+                              >
                                 {this.props.commentToEdit ? 'Edit' : 'Submit'}
                               </button>
                               {this.props.commentToEdit && (
@@ -155,7 +159,7 @@ class PostDetail extends React.Component {
                                     </span>
                                     <span>Edit</span>
                                   </button>
-                                  <button className="button is-danger is-outlined" onClick={() => this.props.confirmModal(comment)}>
+                                  <button className="button is-danger is-outlined" onClick={() => this.props.confirmModal(comment, this.props.post)}>
                                     <span className="icon is-small">
                                       <i className="fas fa-times" />
                                     </span>
@@ -187,6 +191,8 @@ const mapStateToProps = (state, props) => {
     user: state.user.user,
     comments: state.comments.comments,
     commentToEdit: state.ui.editComment,
+    commentPost: state.ui.editCommentPost,
+    commentLoading: state.comments.loading,
   };
 };
 
@@ -198,7 +204,7 @@ const mapDispatchToProps = dispatch => ({
   insertComment: (post, user, description, commentToEdit) => dispatch(insertComment(post, user, description, commentToEdit)),
   cleanComments: () => dispatch(cleanComments()),
   editComment: comment => dispatch(editComment(comment)),
-  confirmModal: comment => dispatch(confirmModal(true, 'comment', comment)),
+  confirmModal: (comment, post) => dispatch(confirmModal(true, 'comment', comment, post)),
 });
 
 export default connect(

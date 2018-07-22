@@ -6,6 +6,7 @@ import Loading from '../components/Loading';
 
 import { getAll, getByCategory, vote } from '../actions/posts';
 import { insertSubscription } from '../actions/subscription';
+import { editSort } from '../actions/ui';
 
 class PostList extends React.Component {
   componentDidMount() {
@@ -19,11 +20,23 @@ class PostList extends React.Component {
   componentDidUpdate(prevProps) {
     if (
       !this.props.isPopular &&
-      ((prevProps.loading && !this.props.loading) || (prevProps.category && prevProps.category.link !== this.props.category.link))
+      ((prevProps.category && prevProps.category.link !== this.props.category.link) ||
+        (!prevProps.category && this.props.category && this.props.category.link))
     ) {
       this.props.getByCategory(this.props.category.link);
     }
   }
+
+  sort = (a, b) => {
+    switch (this.props.sort) {
+      case 'name':
+        return a.name.localeCompare(b.name);
+      case 'date':
+        return b.timestamp - a.timestamp;
+      default:
+        return b.voteScore - a.voteScore;
+    }
+  };
 
   render() {
     return this.props.loadingPost || this.props.loadingCategories || (!this.props.isPopular && !this.props.category) ? (
@@ -33,9 +46,9 @@ class PostList extends React.Component {
         <div className="content">
           <div className="is-clearfix">
             <h1 className="is-pulled-left">{this.props.isPopular ? 'Popular' : this.props.category.name}</h1>
-            {!this.props.isPopular &&
-              this.props.user && (
-                <div className="is-pulled-right">
+            <div className="is-pulled-right buttons" style={{ alignItems: 'self-start' }}>
+              {!this.props.isPopular &&
+                this.props.user && (
                   <button
                     className={`button is-primary ${this.props.subscriptionLoading ? 'is-loading' : ''}`}
                     onClick={() =>
@@ -52,8 +65,23 @@ class PostList extends React.Component {
                         : 'Subscribe'}
                     </span>
                   </button>
-                </div>
-              )}
+                )}
+
+              <div className="buttons has-addons">
+                <span
+                  className={`button ${this.props.sort === 'votes' ? 'is-primary is-selected' : ''}`}
+                  onClick={() => this.props.editSort('votes')}
+                >
+                  Votes
+                </span>
+                <span className={`button ${this.props.sort === 'date' ? 'is-primary is-selected' : ''}`} onClick={() => this.props.editSort('date')}>
+                  Date
+                </span>
+                <span className={`button ${this.props.sort === 'name' ? 'is-primary is-selected' : ''}`} onClick={() => this.props.editSort('name')}>
+                  Name
+                </span>
+              </div>
+            </div>
           </div>
           <p>{this.props.isPopular ? "See what's interesting around you" : this.props.category.description}</p>
         </div>
@@ -61,7 +89,7 @@ class PostList extends React.Component {
         {this.props.posts &&
           this.props.posts.length === 0 && <div className="notification is-info">No one posts found, be the first and insert something</div>}
 
-        {this.props.posts && this.props.posts.sort((a, b) => b.voteScore - a.voteScore).map(post => <Post key={post.id} post={post} />)}
+        {this.props.posts && this.props.posts.sort(this.sort).map(post => <Post key={post.id} post={post} />)}
       </div>
     );
   }
@@ -94,6 +122,7 @@ const mapStateToProps = (state, props) => {
     user: state.user.user,
     subscriptions: state.subscription.subscriptions,
     subscriptionLoading: state.subscription.loading,
+    sort: state.ui.sort,
   };
 };
 
@@ -102,6 +131,7 @@ const mapDispatchToProps = dispatch => ({
   getByCategory: category => dispatch(getByCategory(category)),
   insertSubscription: (category, user, remove) => dispatch(insertSubscription({ category, user }, remove)),
   vote: (post, type) => dispatch(vote(post, type)),
+  editSort: sort => dispatch(editSort(sort)),
 });
 
 export default connect(

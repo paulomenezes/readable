@@ -29,6 +29,14 @@ class PostForm extends React.Component {
     }
   }
 
+  cleanState = () => {
+    this.setState({
+      title: '',
+      description: '',
+      category: undefined,
+    });
+  };
+
   render() {
     return (
       <Modal
@@ -50,7 +58,13 @@ class PostForm extends React.Component {
         <div className="content">
           <div className="is-clearfix">
             <h1 className="is-pulled-left">Add post</h1>
-            <i className="is-pulled-right fas fa-times is-link" onClick={() => this.props.openModal(false)} />
+            <i
+              className="is-pulled-right fas fa-times is-link"
+              onClick={() => {
+                this.props.openModal(false);
+                this.cleanState();
+              }}
+            />
           </div>
           <br />
           <div className="field">
@@ -95,7 +109,12 @@ class PostForm extends React.Component {
               <button
                 className={`button is-primary ${this.props.loading && 'is-loading'}`}
                 disabled={this.props.loading || !this.state.title || !this.state.description || !this.state.category}
-                onClick={() => this.props.insertPost(this.props.post, this.state.title, this.state.description, this.state.category, this.props.user)}
+                onClick={() => {
+                  this.props.insertPost(this.props.post, this.state.title, this.state.description, this.state.category, this.props.user);
+                  this.cleanState();
+
+                  this.props.history.push(`/e/${this.state.category}`);
+                }}
               >
                 {this.props.isEditPost ? 'Edit' : 'Create'}
               </button>

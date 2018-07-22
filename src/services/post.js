@@ -37,6 +37,16 @@ export const vote = (post, newScore) =>
     body: JSON.stringify(newScore),
   });
 
+export const incrementcommentCount = (post, newCounter) =>
+  fetch(url(`posts/${post.category}/${post.id}/commentCount`), {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newCounter),
+  });
+
 export const remove = post =>
   fetch(url(`posts/${post.category}/${post.id}/deleted`), {
     method: 'PUT',

@@ -18,6 +18,14 @@ class CategoryForm extends React.Component {
     });
   };
 
+  cleanState = () => {
+    this.setState({
+      name: '',
+      link: '',
+      description: '',
+    });
+  };
+
   render() {
     return (
       <Modal
@@ -82,8 +90,11 @@ class CategoryForm extends React.Component {
             <p className="control is-pulled-right">
               <button
                 className={`button is-primary ${this.props.loading && 'is-loading'}`}
-                disabled={this.props.loading}
-                onClick={() => this.props.insertCategory(this.state.name, this.state.link, this.state.description)}
+                disabled={this.props.loading || !this.state.name || !this.state.link}
+                onClick={() => {
+                  this.props.insertCategory(this.state.name, this.state.link, this.state.description);
+                  this.cleanState();
+                }}
               >
                 Create
               </button>

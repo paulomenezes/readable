@@ -8,6 +8,7 @@ export const POST_EDIT_SUCCESS = 'POST_EDIT_SUCCESS';
 export const POST_ERROR = 'POST_ERROR';
 export const POST_VOTE_SUCCESS = 'POST_VOTE_SUCCESS';
 export const POST_DELETE_SUCCESS = 'POST_DELETE_SUCCESS';
+export const POST_INCREMENT_COMMENT = 'POST_INCREMENT_COMMENT';
 
 export const isLoading = (loading = true) => ({
   type: POST_LOADING,
@@ -43,6 +44,12 @@ export const postVoteSuccess = (post, voteScore) => ({
 export const postDeleteSuccess = post => ({
   type: POST_DELETE_SUCCESS,
   post,
+});
+
+export const postIncrementComment = (post, newCounter) => ({
+  type: POST_INCREMENT_COMMENT,
+  post,
+  newCounter,
 });
 
 export const getAll = () => async dispatch => {
@@ -105,7 +112,7 @@ export const getById = id => async dispatch => {
 export const insertPost = ({ originalPost, name, description, category, user }) => async dispatch => {
   dispatch(isLoading());
 
-  if (name && description) {
+  if (name && description && category) {
     try {
       const post = {
         id: originalPost ? originalPost.id : id(),
@@ -116,6 +123,7 @@ export const insertPost = ({ originalPost, name, description, category, user }) 
         deleted: false,
         name,
         description,
+        commentCount: originalPost ? originalPost.commentCount : 0,
       };
 
       await PostAPI.insertPost(post);

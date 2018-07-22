@@ -34,7 +34,7 @@ const ConfirmModal = props => (
       <footer className="buttons">
         <button
           className="button is-primary"
-          onClick={() => (props.title === 'post' ? props.removePost(props.item) : props.removeComment(props.item))}
+          onClick={() => (props.title === 'post' ? props.removePost(props.item) : props.removeComment(props.item, props.commentPost))}
         >
           Yes, remove it
         </button>
@@ -50,12 +50,13 @@ const mapStateToProps = state => ({
   title: state.ui.confirmModalTitle,
   isOpen: state.ui.isConfirmModalOpened,
   item: state.ui.confirmModalItemToRemove,
+  commentPost: state.ui.editCommentPost,
 });
 
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(confirmModal(false, undefined)),
   removePost: post => dispatch(removePost(post)),
-  removeComment: comment => dispatch(removeComment(comment)),
+  removeComment: (comment, post) => dispatch(removeComment(comment, post)),
 });
 
 export default connect(

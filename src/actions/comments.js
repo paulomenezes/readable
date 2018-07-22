@@ -1,5 +1,7 @@
 import { confirmModal } from './ui';
+import { postIncrementComment } from './posts';
 import * as CommentAPI from '../services/comments';
+import * as PostAPI from '../services/post';
 
 export const COMMENT_LOADING = 'COMMENT_LOADING';
 export const COMMENT_LOAD = 'COMMENT_LOAD';
@@ -89,7 +91,10 @@ export const insertComment = (post, user, description, originalComment) => async
       if (originalComment) {
         dispatch(commentEditSuccess(comment));
       } else {
+        await PostAPI.incrementcommentCount(post, post.commentCount + 1);
+
         dispatch(commentSuccess(comment));
+        dispatch(postIncrementComment(post, post.commentCount + 1));
       }
     } catch (error) {
       dispatch(commentError());
@@ -117,13 +122,15 @@ export const vote = (comment, type) => async dispatch => {
   }
 };
 
-export const removeComment = comment => async dispatch => {
+export const removeComment = (comment, post) => async dispatch => {
   if (comment) {
     try {
       await CommentAPI.remove(comment);
+      await PostAPI.incrementcommentCount(post, post.commentCount - 1);
 
       dispatch(commentDeleteSuccess(comment));
       dispatch(confirmModal(false, undefined, undefined));
+      dispatch(postIncrementComment(post, post.commentCount - 1));
     } catch (error) {
       dispatch(commentError());
     }
