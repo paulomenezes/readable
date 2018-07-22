@@ -47,6 +47,8 @@ export const insertUser = ({ name, username, password }) => async dispatch => {
 };
 
 export const login = ({ username, password }) => async dispatch => {
+  dispatch(isLoading());
+
   try {
     const response = await UserAPI.getUser(username);
     const user = await response.json();
