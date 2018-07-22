@@ -1,4 +1,13 @@
-import { POST_LOADING, POST_SUCCESS, POST_EDIT_SUCCESS, POST_ERROR, POST_LOAD, POST_VOTE_SUCCESS, POST_DELETE_SUCCESS } from '../actions/posts';
+import {
+  POST_LOADING,
+  POST_SUCCESS,
+  POST_EDIT_SUCCESS,
+  POST_ERROR,
+  POST_LOAD,
+  POST_VOTE_SUCCESS,
+  POST_DELETE_SUCCESS,
+  POST_INCREMENT_COMMENT,
+} from '../actions/posts';
 
 import reducer from './posts';
 
@@ -70,6 +79,17 @@ describe('Posts reducer', () => {
   it('should handle POST_DELETE_SUCCESS action', () => {
     expect(reducer({ posts: [{ id: 'abc' }, { id: 'cde' }] }, { type: POST_DELETE_SUCCESS, post: { id: 'abc' } })).toEqual({
       posts: [{ id: 'cde' }],
+    });
+  });
+
+  it('should handle POST_INCREMENT_COMMENT action', () => {
+    expect(
+      reducer(
+        { posts: [{ id: 'abc', commentCount: 0 }, { id: 'cde', commentCount: 0 }] },
+        { type: POST_INCREMENT_COMMENT, post: { id: 'abc' }, newCounter: 1 }
+      )
+    ).toEqual({
+      posts: [{ id: 'abc', commentCount: 1 }, { id: 'cde', commentCount: 0 }],
     });
   });
 });

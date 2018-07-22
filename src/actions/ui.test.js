@@ -6,6 +6,7 @@ import {
   EDIT_POST_MODAL,
   CONFIRM_MODAL,
   EDIT_COMMENT,
+  EDIT_SORT,
   loginModal,
   registerModal,
   addCategoryModal,
@@ -14,6 +15,7 @@ import {
   editComment,
   editCommentSuccess,
   confirmModal,
+  editSort,
 } from './ui.js';
 
 describe('UI action creators', () => {
@@ -73,6 +75,13 @@ describe('UI action creators', () => {
       opened: true,
       title: 'title',
       item: { id: 'abc' },
+    });
+  });
+
+  it('editSort should dispatch EDIT_SORT action', () => {
+    expect(editSort('name')).toEqual({
+      type: EDIT_SORT,
+      sort: 'name',
     });
   });
 });

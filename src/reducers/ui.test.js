@@ -1,4 +1,13 @@
-import { LOGIN_MODAL, REGISTER_MODAL, ADD_CATEGORY_MODAL, ADD_POST_MODAL, EDIT_POST_MODAL, CONFIRM_MODAL, EDIT_COMMENT } from '../actions/ui';
+import {
+  LOGIN_MODAL,
+  REGISTER_MODAL,
+  ADD_CATEGORY_MODAL,
+  ADD_POST_MODAL,
+  EDIT_POST_MODAL,
+  CONFIRM_MODAL,
+  EDIT_COMMENT,
+  EDIT_SORT,
+} from '../actions/ui';
 
 import reducer, { initilState } from './ui';
 
@@ -97,6 +106,12 @@ describe('UI reducer', () => {
       isConfirmModalOpened: false,
       confirmModalTitle: undefined,
       confirmModalItemToRemove: undefined,
+    });
+  });
+
+  it('should handle EDIT_SORT action', () => {
+    expect(reducer({}, { type: EDIT_SORT, sort: 'name' })).toEqual({
+      sort: 'name',
     });
   });
 });

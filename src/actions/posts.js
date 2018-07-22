@@ -72,7 +72,6 @@ export const getAll = () => async dispatch => {
 
     dispatch(postLoad(postsArray));
   } catch (error) {
-    console.log(error);
     dispatch(postError());
   }
 };
