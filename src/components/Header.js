@@ -17,16 +17,7 @@ const Header = props => {
               </Link>
             </h1>
           </div>
-          <div className="column is-6">
-            {/* <div className="field">
-              <p className="control has-icons-right">
-                <input className="input" type="text" placeholder="Search for a community, post or user" name="search" />
-                <span className="icon is-small is-right">
-                  <i className="fas fa-search" />
-                </span>
-              </p>
-            </div> */}
-          </div>
+          <div className="column is-6" />
           <div className="column is-3">
             {props.user ? (
               <div className="is-pulled-right">

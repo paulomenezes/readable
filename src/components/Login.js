@@ -9,12 +9,12 @@ class Login extends React.Component {
   state = {
     name: '',
     username: '',
-    password: ''
+    password: '',
   };
 
   updateField = (field, value) => {
     this.setState({
-      [field]: value
+      [field]: value,
     });
   };
 
@@ -25,15 +25,15 @@ class Login extends React.Component {
         ariaHideApp={false}
         style={{
           overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.5)'
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
           },
           content: {
             border: 'none',
             boxShadow: '0 0 50px 0 rgba(0, 0, 0, 0.5)',
             left: 'calc(50% - 250px)',
             width: 500,
-            height: 248
-          }
+            height: 248,
+          },
         }}
       >
         <div className="content">
@@ -91,14 +91,14 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  isOpen: state.ui.isLoginOpened
+const mapStateToProps = state => ({
+  isOpen: state.ui.isLoginOpened,
 });
 
 const mapDispatchToProps = dispatch => ({
   openLogin: opened => dispatch(loginModal(opened)),
   openRegister: opened => dispatch(registerModal(opened)),
-  login: (username, password) => dispatch(login({ username, password }))
+  login: (username, password) => dispatch(login({ username, password })),
 });
 
 export default connect(

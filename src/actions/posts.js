@@ -1,3 +1,4 @@
+import { id } from '../constants';
 import { addPostModal, confirmModal } from './ui';
 import * as PostAPI from '../services/post';
 
@@ -175,9 +176,3 @@ export const removePost = post => async dispatch => {
     }
   }
 };
-
-function id() {
-  return Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1);
-}

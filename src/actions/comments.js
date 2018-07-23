@@ -1,3 +1,5 @@
+import { id } from '../constants';
+
 import { confirmModal } from './ui';
 import { postIncrementComment } from './posts';
 import * as CommentAPI from '../services/comments';
@@ -140,9 +142,3 @@ export const removeComment = (comment, post) => async dispatch => {
 export const cleanComments = () => dispatch => {
   dispatch(commentClean());
 };
-
-function id() {
-  return Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1);
-}

@@ -106,7 +106,7 @@ class CategoryForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
   isOpen: state.ui.isAddCategoryOpened,
   loading: state.categories.loading,
 });

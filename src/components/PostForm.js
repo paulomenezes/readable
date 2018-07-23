@@ -126,7 +126,7 @@ class PostForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = state => ({
   isOpen: state.ui.isAddPostOpened,
   isEditPost: state.ui.editPostId,
   post: state.ui.editPostId && state.posts.posts.filter(p => p.id === state.ui.editPostId)[0],
