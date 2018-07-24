@@ -16,7 +16,7 @@ const Post = ({ post, vote, isPopular, user, editPostModal, confirmModal }) => (
       <div className="media">
         <div className="media-content">
           <p className="title is-4">
-            <Link to={`/p/${post.id}`}>{post.name}</Link>
+            <Link to={`/${post.category}/${post.id}`}>{post.name}</Link>
           </p>
         </div>
       </div>
@@ -31,8 +31,8 @@ const Post = ({ post, vote, isPopular, user, editPostModal, confirmModal }) => (
 
         <div>
           {isPopular && (
-            <Link to={`/e/${post.category}`} className="mr-5">
-              <span className="tag is-primary">e/{post.category}</span>
+            <Link to={`/${post.category}`} className="mr-5">
+              <span className="tag is-primary">/{post.category}</span>
             </Link>
           )}
           {<span className="tag is-primary">Comments: {post.commentCount}</span>}

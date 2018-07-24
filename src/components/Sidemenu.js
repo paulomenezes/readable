@@ -28,8 +28,8 @@ const Sidemenu = props => {
             <ul className="menu-list">
               {props.subscriptions.map(subscription => (
                 <li key={subscription.category}>
-                  <NavLink to={`/e/${subscription.category}`} activeClassName="is-active">
-                    e/{subscription.category}
+                  <NavLink to={`/${subscription.category}`} activeClassName="is-active">
+                    /{subscription.category}
                   </NavLink>
                 </li>
               ))}
@@ -45,8 +45,8 @@ const Sidemenu = props => {
           {props.categories &&
             props.categories.map(category => (
               <li key={category.link}>
-                <NavLink to={`/e/${category.link}`} activeClassName="is-active">
-                  e/{category.link}
+                <NavLink to={`/${category.link}`} activeClassName="is-active">
+                  /{category.link}
                 </NavLink>
               </li>
             ))}

@@ -42,8 +42,8 @@ class App extends Component {
               </div>
               <div className="column is-9">
                 <Route exact path="/" component={PostList} />
-                <Route exact path="/e/:category" component={PostList} />
-                <Route exact path="/p/:id" component={PostDetail} />
+                <Route exact path="/:category" component={PostList} />
+                <Route exact path="/:category/:id" component={PostDetail} />
               </div>
             </div>
           </section>

@@ -113,7 +113,11 @@ class PostForm extends React.Component {
                   this.props.insertPost(this.props.post, this.state.title, this.state.description, this.state.category, this.props.user);
                   this.cleanState();
 
-                  this.props.history.push(`/e/${this.state.category}`);
+                  if (this.props.post) {
+                    this.props.history.push(`/${this.state.category}/${this.props.post.id}`);
+                  } else {
+                    this.props.history.push(`/${this.state.category}`);
+                  }
                 }}
               >
                 {this.props.isEditPost ? 'Edit' : 'Create'}

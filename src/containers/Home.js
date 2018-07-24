@@ -14,8 +14,8 @@ const Home = () => (
       <div className="column is-9">
         <Switch>
           <Route exact path="/" component={PostList} />
-          <Route exact path="/e/:category" component={PostList} />
-          <Route exact path="/e/:category/:id" component={PostDetail} />
+          <Route exact path="/:category" component={PostList} />
+          <Route exact path="/:category/:id" component={PostDetail} />
         </Switch>
       </div>
     </div>

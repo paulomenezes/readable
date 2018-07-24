@@ -39,6 +39,7 @@ const reducer = (state = initialState, action) => {
       };
     case COMMENT_ERROR:
       return {
+        ...state,
         loading: false,
         error: true,
         success: false,
